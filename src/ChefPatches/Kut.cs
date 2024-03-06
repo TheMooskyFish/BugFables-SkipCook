@@ -10,7 +10,6 @@ namespace SkipCook.Patches
             try
             {
                 Plugin.Logger.LogInfo("Patching Kut's code path");
-                Plugin.CodeMatcher.Start();
                 Plugin.CodeMatcher.Start()
                 .MatchForward(true,
                     new CodeMatch(OpCodes.Ldarg_0),

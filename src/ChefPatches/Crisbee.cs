@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 using HarmonyLib;
 using UnityEngine;
 
@@ -46,7 +44,7 @@ namespace SkipCook.Patches
                     new CodeMatch(OpCodes.Nop)
                 );
                 Utils.RemoveEventControlWait("halfsec");
-                for (int i = 0; i < 2; i++)
+                for (var i = 0; i < 2; i++)
                 {
                     Plugin.CodeMatcher.MatchForward(true,
                         new CodeMatch(OpCodes.Ldsfld, AccessTools.Field(typeof(EventControl), "call")),

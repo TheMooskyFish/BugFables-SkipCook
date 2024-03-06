@@ -1,8 +1,6 @@
-﻿using System.IO;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using UnityEngine;
 
 namespace SkipCook
 {
