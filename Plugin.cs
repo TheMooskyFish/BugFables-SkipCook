@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 
@@ -12,11 +13,18 @@ namespace SkipCook
         internal static new ManualLogSource Logger;
         public static bool SkipCookToggle;
         public static CodeMatcher CodeMatcher;
+        public static bool IsXboxVer = false;
         private Harmony _harmony;
         public void Awake()
         {
             _harmony = new Harmony("dev.mooskyfish.skipcook");
             Logger = base.Logger;
+            if (Type.GetType("XboxOneGameData, Assembly-CSharp") is not null)
+            {
+                IsXboxVer = true;
+                base.Logger.LogError("XBOX VERSION UNSUPPORTED");
+                return;
+            }
             _harmony.PatchAll();
         }
     }
