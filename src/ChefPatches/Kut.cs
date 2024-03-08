@@ -1,5 +1,7 @@
-﻿using System.Reflection.Emit;
+﻿using System.Reflection;
+using System.Reflection.Emit;
 using HarmonyLib;
+using UnityEngine;
 
 namespace SkipCook.Patches
 {
@@ -16,7 +18,12 @@ namespace SkipCook.Patches
                 new CodeMatch(OpCodes.Bne_Un),
                 new CodeMatch(OpCodes.Ldarg_0)
             );
-            Utils.Nopify(314);
+            Utils.MatchThenNopify(false,
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(i => i.opcode == OpCodes.Ldfld && ((FieldInfo)i.operand).Name.StartsWith("<t>")),
+                new CodeMatch(OpCodes.Callvirt),
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(GameObject), "Destroy", [typeof(Object)]))
+            );
         }
     }
 }

@@ -30,18 +30,18 @@ namespace SkipCook
                 Plugin.CodeMatcher.SetAndAdvance(OpCodes.Nop, null);
             }
         }
+        public static void MatchThenNopify(bool useEnd, params CodeMatch[] codeMatches)
+        {
+            var oldPos = Plugin.CodeMatcher.Pos;
+            var currentPos = Plugin.CodeMatcher.MatchForward(useEnd, codeMatches).Advance(useEnd ? 0 : -1).Pos;
+            Plugin.CodeMatcher.Advance(oldPos - currentPos);
+            Nopify(currentPos - oldPos);
+        }
         public static void DebugPrint(int start, int end)
         {
             foreach (var i in Plugin.CodeMatcher.InstructionsWithOffsets(start, end))
             {
                 Plugin.Logger.LogInfo(i);
-            }
-        }
-        public static void DebugNopify(int instsnumber)
-        {
-            foreach (var i in Plugin.CodeMatcher.InstructionsWithOffsets(0, instsnumber))
-            {
-                Plugin.Logger.LogInfo($"{i} - NOP DEBUG");
             }
         }
     }

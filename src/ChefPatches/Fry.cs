@@ -22,9 +22,19 @@ namespace SkipCook.Patches
                 new CodeInstruction(OpCodes.Ldc_I4_0),
                 new CodeInstruction(OpCodes.Call, AccessTools.PropertySetter(typeof(SpriteRenderer), nameof(SpriteRenderer.enabled)))
             ).Advance(3);
-            Utils.Nopify(195);
+            Utils.MatchThenNopify(false,
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldfld),
+                new CodeMatch(OpCodes.Callvirt),
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(GameObject), "Destroy", [typeof(Object)]))
+            );
             Plugin.CodeMatcher.Advance(4);
-            Utils.Nopify(86);
+            Utils.MatchThenNopify(true,
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldfld),
+                new CodeMatch(OpCodes.Ldc_R4),
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(GameObject), "Destroy", [typeof(Object), typeof(float)]))
+            );
         }
     }
 }

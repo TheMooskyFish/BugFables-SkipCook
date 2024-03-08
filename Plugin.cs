@@ -22,8 +22,6 @@ namespace SkipCook
             if (Type.GetType("XboxOneGameData, Assembly-CSharp") is not null)
             {
                 IsXboxVer = true;
-                base.Logger.LogError("XBOX VERSION UNSUPPORTED");
-                return;
             }
             _harmony.PatchAll();
         }
